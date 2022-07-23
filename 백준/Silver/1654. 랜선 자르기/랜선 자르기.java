@@ -25,8 +25,6 @@ public class Main {
         max++;
         if (N == 1 && K == 1)
             bw.write(X[0] + "\n");
-        else if (max == 2)
-            bw.write(1 + "\n");
         else {
             while (min < max) {
                 long mid = (max - min) / 2 + min;
