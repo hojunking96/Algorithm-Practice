@@ -9,7 +9,7 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-    static String dfs = "", bfs = "";
+    static StringBuilder sb = new StringBuilder();
     static boolean[] c;
     static int[][] arr;
     static int N;
@@ -17,7 +17,7 @@ public class Main {
 
     static void DFS(int root) {
         c[root] = true;
-        dfs += (root + " ");
+        sb.append(root).append(' ');
         for (int i = 1; i <= N; i++)
             if (arr[root][i] == 1 && !c[i])
                 DFS(i);
@@ -28,7 +28,7 @@ public class Main {
         c[root] = true;
         while (!q.isEmpty()) {
             root = q.poll();
-            bfs += (root + " ");
+            sb.append(root).append(' ');
             for (int i = 1; i <= N; i++)
                 if (arr[root][i] == 1 && !c[i]) {
                     q.add(i);
@@ -58,12 +58,12 @@ public class Main {
             arr[tmp2][tmp1] = 1;
         }
         DFS(V);
-        bw.write(dfs + "\n");
-
-        Arrays.fill(c, false);
+        bw.write(sb + "\n");
+        sb.setLength(0);
+        c = new boolean[N + 1];
         BFS(V);
 
-        bw.write(bfs + "\n");
+        bw.write(sb + "\n");
         bw.flush();
         bw.close();
         br.close();
