@@ -60,7 +60,7 @@ public class Main {
         DFS(V);
         bw.write(sb + "\n");
         sb.setLength(0);
-        c = new boolean[N + 1];
+        Arrays.fill(c, false);
         BFS(V);
 
         bw.write(sb + "\n");
