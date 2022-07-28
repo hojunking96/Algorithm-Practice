@@ -8,20 +8,7 @@ import java.util.StringTokenizer;
 public class Main {
     static int N, M;
     static int X[][];
-
     static boolean c[];
-
-    public static void DFS(int root) {
-        if (c[root])
-            return;
-        else {
-            c[root] = true;
-            for (int i = 0; i < N; i++) {
-                if (X[root][i] == 1)
-                    DFS(i);
-            }
-        }
-    }
 
     public static void main(String[] args) throws IOException {
 
@@ -56,5 +43,16 @@ public class Main {
         br.close();
 
     }
-
+    
+    public static void DFS(int root) {
+        if (c[root])
+            return;
+        else {
+            c[root] = true;
+            for (int i = 0; i < N; i++) {
+                if (X[root][i] == 1)
+                    DFS(i);
+            }
+        }
+    }
 }
