@@ -7,39 +7,36 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-class pair {
-    int x;
-    int y;
-
-    pair(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
 public class Main {
     static int[][] X;
-    static boolean check[][];
+
     static int N, M;
     static int[] dx = { 1, 0, -1, 0 };
     static int[] dy = { 0, 1, 0, -1 };
 
+    static class pair {
+        int x;
+        int y;
+
+        pair(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     static void BFS(int x, int y) {
         Queue<pair> q = new LinkedList<>();
         q.add(new pair(x, y));
-        check[x][y] = true;
         while (!q.isEmpty()) {
             pair now = q.poll();
 
             for (int i = 0; i < 4; i++) {
                 pair next = new pair(now.x + dx[i], now.y + dy[i]);
                 if (next.x >= 0 && next.x <= N - 1 && next.y >= 0 && next.y <= M - 1) {
-                    if (!check[next.x][next.y] && X[next.x][next.y] != 0) {
-                        check[next.x][next.y] = true;
+                    if (X[next.x][next.y] == 1) {
                         X[next.x][next.y] = X[now.x][now.y] + 1;
                         q.add(next);
                     }
-
                 }
             }
         }
@@ -52,7 +49,6 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         X = new int[N][M];
-        check = new boolean[N][M];
 
         for (int i = 0; i < N; i++) {
             String s = br.readLine();
