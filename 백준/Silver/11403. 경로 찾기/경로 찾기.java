@@ -24,7 +24,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
 
         N = Integer.parseInt(br.readLine());
         G = new int[N][N];
@@ -38,12 +38,11 @@ public class Main {
         find(G);
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                bw.write(G[i][j] + " ");
+                sb.append(G[i][j] + " ");
             }
-            bw.write("\n");
+            sb.append("\n");
         }
-        bw.flush();
-        bw.close();
+        System.out.println(sb);
         br.close();
     }
 }
