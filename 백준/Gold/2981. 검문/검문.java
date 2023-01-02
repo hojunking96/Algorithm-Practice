@@ -17,8 +17,7 @@ public class Main {
         }
         Arrays.sort(keys);
         for (int i = 0; i < N - 1; i++) {
-            if (min >= keys[i + 1] - keys[i])
-                min = keys[i + 1] - keys[i];
+            min = Math.min(min, keys[i + 1] - keys[i]);
         }
 
         for (int M = 2; M <= min; M++) {
