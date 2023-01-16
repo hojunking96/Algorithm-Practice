@@ -1,32 +1,25 @@
-class Solution {
-    
-    public static int N;
-    
+
+import java.util.Stack;
+
+public class Solution {
+
     public int[] solution(int[] prices) {
-        int[] answer = {};
-         N = prices.length;
-        answer = new int[N];
-        
-        calculate(prices, answer);
-        return answer;
-    }
-    
+        int[] answer = new int[prices.length];
+        Stack<Integer> stack = new Stack<>();
 
-    public static void calculate(int[] prices, int[] answer) {
-
-        for (int i = 0; i < N; i++) {
-            int cnt = 1;
-            int j = i + 1;
-            for (j = i + 1; j < N; j++) {
-                if (prices[i] > prices[j]) {
-                    answer[i] = cnt;
-                    break;
-                }
-                cnt++;
+        for (int i = 0; i < prices.length; i++) {
+            while (!stack.isEmpty() && prices[i] < prices[stack.peek()]) {
+                answer[stack.peek()] = i - stack.peek();
+                stack.pop();  // 답을 구했기 때문에 stack에서 제거
             }
-            if (j == N)
-                answer[i] = cnt - 1;
+            stack.push(i);
         }
-        answer[N - 1] = 0;
+
+        while (!stack.isEmpty()) { // 값을 구하지 못한 index == 끝까지 가격이 떨어지지 않은 주식
+            answer[stack.peek()] = prices.length - stack.peek() - 1;
+            stack.pop();
+        }
+
+        return answer;
     }
 }
