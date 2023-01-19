@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 class Main {
     public static int[][] S;
     public static StringBuilder sb;
+    public static boolean end;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -32,13 +33,16 @@ class Main {
     }
 
     public static void DFS(int x, int y) {
+        if (end)
+            return;
         if (y == 9) {
             DFS(x + 1, 0);
             return;
         }
         if (x == 9) {
             printSudoku();
-            System.exit(0);
+            end = true;
+            return;
         }
         if (S[x][y] == 0) {
             for (int k = 1; k <= 9; k++) {
