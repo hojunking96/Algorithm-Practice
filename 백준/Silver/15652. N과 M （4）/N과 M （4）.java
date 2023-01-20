@@ -1,6 +1,4 @@
 import java.io.*;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 
@@ -17,21 +15,21 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
         sb = new StringBuilder();
         cnt = new int[N];
-        printSequence(0, 0);
+        dfs(0, 0);
         System.out.println(sb);
     }
 
-    public static void printSequence(int depth, int start) {
+    public static void dfs(int depth, int start) {
         if (depth == M) {
             for (int i = 0; i < M; i++) {
-                sb.append(cnt[i] + " ");
+                sb.append(cnt[i]).append(" ");
             }
             sb.append("\n");
             return;
         }
         for (int i = start; i < N; i++) {
             cnt[depth] = i + 1;
-            printSequence(depth + 1, i);
+            dfs(depth + 1, i);
         }
     }
 }
