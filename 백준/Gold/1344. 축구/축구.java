@@ -7,9 +7,6 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         double A = Integer.parseInt(br.readLine());
         double B = Integer.parseInt(br.readLine());
-        double a = 1;
-        double k = (double) 1 / 2;
-
         double AScoreProbability = primeNumProbability(A / 100);
         double BScoreProbability = primeNumProbability(B / 100);
         double answer = 1 - AScoreProbability * BScoreProbability;
@@ -18,19 +15,22 @@ public class Main {
 
     public static double primeNumProbability(double scoreProbability) {
         double sum = 0;
-        sum += combination(0) * calcProbability(scoreProbability, 0);
-        sum += combination(1) * calcProbability(scoreProbability, 1);
-        sum += combination(4) * calcProbability(scoreProbability, 4);
-        sum += combination(6) * calcProbability(scoreProbability, 6);
-        sum += combination(8) * calcProbability(scoreProbability, 8);
-        sum += combination(9) * calcProbability(scoreProbability, 9);
-        sum += combination(10) * calcProbability(scoreProbability, 10);
-        sum += combination(12) * calcProbability(scoreProbability, 12);
-        sum += combination(14) * calcProbability(scoreProbability, 14);
-        sum += combination(15) * calcProbability(scoreProbability, 15);
-        sum += combination(16) * calcProbability(scoreProbability, 16);
-        sum += combination(18) * calcProbability(scoreProbability, 18);
+        for (int i = 0; i <= 18; i++) {
+            if (!isPrime(i)) {
+                sum += combination(i) * calcProbability(scoreProbability, i);
+            }
+        }
         return sum;
+    }
+
+    public static boolean isPrime(int k) {
+        if (k == 0 || k == 1)
+            return false;
+        for (int i = 2; i <= Math.sqrt(k); i++) {
+            if (k % i == 0)
+                return false;
+        }
+        return true;
     }
 
     public static double calcProbability(double scoreProbability, int cnt) {
