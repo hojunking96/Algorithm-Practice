@@ -30,9 +30,11 @@ class Solution {
 
     }
     
+    public static boolean deliveryEnd;
+    public static boolean pickupEnd;
     
     public long solution(int cap, int n, int[] deliveries, int[] pickups) {
-        long answer = 0;
+          long answer = 0;
         List<House> houses = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
@@ -44,9 +46,9 @@ class Solution {
         }
         while (houses.size() != 0) {
             int houseIndex = houses.size();
-           if (needDelivery(houses))
+            if (!deliveryEnd)
                 go(cap, houses);
-            if (needPickup(houses)) {
+            if (!pickupEnd) {
                 back(cap, houses);
             }
             answer += houseIndex;
@@ -65,7 +67,8 @@ class Solution {
     public static void go(int cap, List<House> houses) {
         int box = cap;
         int endPoint = houses.size() - 1;
-        for (int i = endPoint; i >= 0; i--) {
+        int i;
+        for (i = endPoint; i >= 0; i--) {
             int lastDelivery = houses.get(i).getDelivery();
             if (box > lastDelivery) {
                 box -= lastDelivery;
@@ -75,12 +78,15 @@ class Solution {
                 break;
             }
         }
+        if (i == -1 && houses.get(0).getDelivery() == 0)
+            deliveryEnd = true;
     }
 
     public static void back(int cap, List<House> houses) {
         int box = cap;
         int endPoint = houses.size() - 1;
-        for (int i = endPoint; i >= 0; i--) {
+        int i;
+        for (i = endPoint; i >= 0; i--) {
             int lastPickup = houses.get(i).getPickup();
             if (box > lastPickup) {
                 box -= lastPickup;
@@ -91,6 +97,8 @@ class Solution {
                 break;
             }
         }
+        if (i == -1 && houses.get(0).getPickup() == 0)
+            pickupEnd = true;
     }
 
     public static boolean needDelivery(List<House> houses) {
