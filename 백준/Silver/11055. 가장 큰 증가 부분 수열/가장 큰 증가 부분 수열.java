@@ -14,8 +14,8 @@ public class Main {
             arr[i] = Integer.parseInt(st.nextToken());
             dp[i] = 0;
             for (int j = 0; j < i; j++) {
-                if (arr[i] > arr[j])
-                    dp[i] = Math.max(dp[i], dp[j]);
+                if (arr[i] > arr[j] && dp[i] <= dp[j])
+                    dp[i] = dp[j];
             }
             dp[i] += arr[i];
         }
