@@ -1,57 +1,43 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    static int N, M;
-    static int X[][];
-    static boolean c[];
+
+    public static int N, M;
+    public static boolean[][] graph;
+    public static int cnt = 0;
+    public static boolean[] visited;
 
     public static void main(String[] args) throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st;
-
-        st = new StringTokenizer(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        X = new int[N][N];
-        c = new boolean[N];
-        int cnt = 0;
+
+        graph = new boolean[N + 1][N + 1];
+        visited = new boolean[N + 1];
 
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            int tmp1 = Integer.parseInt(st.nextToken());
-            int tmp2 = Integer.parseInt(st.nextToken());
-            X[tmp1 - 1][tmp2 - 1] = 1;
-            X[tmp2 - 1][tmp1 - 1] = 1;
+            int v1 = Integer.parseInt(st.nextToken());
+            int v2 = Integer.parseInt(st.nextToken());
+            graph[v1][v2] = true;
+            graph[v2][v1] = true;
         }
-        for (int i = 0; i < N; i++) {
-            if (!c[i]) {
+        for (int i = 1; i <= N; i++) {
+            if (!visited[i]) {
                 DFS(i);
                 cnt++;
             }
         }
-
-        bw.write(cnt + "\n");
-        bw.flush();
-        bw.close();
-        br.close();
-
+        System.out.println(cnt);
     }
-    
-    public static void DFS(int root) {
-        if (c[root])
-            return;
-        else {
-            c[root] = true;
-            for (int i = 0; i < N; i++) {
-                if (X[root][i] == 1)
-                    DFS(i);
+
+    public static void DFS(int start) {
+        visited[start] = true;
+        for (int i = 1; i <= N; i++) {
+            if (graph[start][i] && !visited[i]) {
+                DFS(i);
             }
         }
     }
