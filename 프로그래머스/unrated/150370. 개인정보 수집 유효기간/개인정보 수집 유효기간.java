@@ -2,19 +2,26 @@ import java.util.HashMap;
 
 class Solution {
     public int[] solution(String today, String[] terms, String[] privacies) {
-         int len = privacies.length;
-        int[] answer = {};
-        int[] tmpAnswer = new int[len];
-        int ptr = 0;
+        int[] answer;
+        int privacySize = privacies.length;
+        int[] tmpAnswer = new int[privacySize];
+
         HashMap<Character, Integer> termsMap = new HashMap<>();
         for (int i = 0; i < terms.length; i++) {
             termsMap.put(terms[i].charAt(0), Integer.parseInt(terms[i].substring(2)));
         }
-        for (int i = 0; i < len; i++) {
-            char type = privacies[i].charAt(11);
-            int duration = termsMap.get(type);
-            String deadLine = calculateDate(privacies[i].substring(0, 11), duration);
-            if (isExpired(today, deadLine)) {
+
+        int ptr = 0;
+        for (int i = 0; i < privacySize; i++) {
+            char termType = privacies[i].charAt(11);
+            int duration = termsMap.get(termType);
+            String privacyDate = privacies[i].substring(0, 10);
+            //(index) 0 : year , 1 : month, 2 : day
+            int[] todayArr = stringToIntArr(today);
+            int[] tempDeadLineArr = stringToIntArr(privacyDate);
+            int[] deadLineArr = calculateDeadLine(tempDeadLineArr, duration);
+
+            if (isExpired(todayArr, deadLineArr)) {
                 tmpAnswer[ptr] = i + 1;
                 ptr++;
             }
@@ -25,35 +32,33 @@ class Solution {
         }
         return answer;
     }
-      public static String calculateDate(String date, int duration) {
-        int year = Integer.parseInt(date.substring(0, 4));
-        int month = Integer.parseInt(date.substring(5, 7));
-        int day = Integer.parseInt(date.substring(8, 10));
-        month += duration;
-        while (month > 12) {
-            month -= 12;
-            year++;
+
+    public static int[] stringToIntArr(String date) {
+        int[] dateArr = new int[3];
+        String[] dates = date.split("\\.");
+        for (int i = 0; i < 3; i++) {
+            dateArr[i] = Integer.parseInt(dates[i]);
         }
-        return year + "." + month + "." + day;
+        return dateArr;
     }
 
-    public static boolean isExpired(String today, String deadLine) {
-        String[] todayArr = today.split("\\.");
-        String[] deadLineArr = deadLine.split("\\.");
-        int todayY = Integer.parseInt(todayArr[0]);
-        int todayM = Integer.parseInt(todayArr[1]);
-        int todayD = Integer.parseInt(todayArr[2]);
-        int deadLineY = Integer.parseInt(deadLineArr[0]);
-        int deadLineM = Integer.parseInt(deadLineArr[1]);
-        int deadLineD = Integer.parseInt(deadLineArr[2]);
+    public static int[] calculateDeadLine(int[] deadLineArr, int duration) {
+        deadLineArr[1] += duration;
+        while (deadLineArr[1] > 12) {
+            deadLineArr[1] -= 12;
+            deadLineArr[0]++;
+        }
+        return deadLineArr;
+    }
 
-        if (todayY > deadLineY)
+    public static boolean isExpired(int[] todayArr, int[] deadLineArr) {
+        if (todayArr[0] > deadLineArr[0])
             return true;
-        if (todayY == deadLineY) {
-            if (todayM > deadLineM)
+        if (todayArr[0] == deadLineArr[0]) {
+            if (todayArr[1] > deadLineArr[1])
                 return true;
-            if (todayM == deadLineM) {
-                if (todayD >= deadLineD)
+            if (todayArr[1] == deadLineArr[1]) {
+                if (todayArr[2] >= deadLineArr[2])
                     return true;
             }
         }
