@@ -1,46 +1,40 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
+import java.util.*;
 
 public class Main {
-    private static List<Integer>[] tree;
-    private static int[] parentArr;
-    private static int N;
-    private static StringBuilder sb = new StringBuilder();
+    public static int[] parents;
+    public static ArrayList<Integer>[] graph;
+    public static int N;
+    public static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
-        tree = new List[N + 1];
+        parents = new int[N + 1];
+        graph = new ArrayList[N + 1];
         for (int i = 1; i <= N; i++) {
-            tree[i] = new ArrayList<>();
+            graph[i] = new ArrayList<>();
         }
-        parentArr = new int[N + 1];
         for (int i = 0; i < N - 1; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            int num1 = Integer.parseInt(st.nextToken());
-            int num2 = Integer.parseInt(st.nextToken());
-            tree[num1].add(num2);
-            tree[num2].add(num1);
+            int v1 = Integer.parseInt(st.nextToken());
+            int v2 = Integer.parseInt(st.nextToken());
+            graph[v1].add(v2);
+            graph[v2].add(v1);
         }
-        makeTree(1, 0);
-        printTree();
-        System.out.print(sb);
-    }
-
-    public static void makeTree(int start, int parent) {
-        parentArr[start] = parent;
-        for (int e : tree[start]) {
-            if (e != parent)
-                makeTree(e, start);
-        }
-    }
-
-    public static void printTree() {
+        DFS(1, 0);
         for (int i = 2; i <= N; i++) {
-            sb.append(parentArr[i]).append("\n");
+            sb.append(parents[i]).append("\n");
+        }
+        System.out.println(sb);
+    }
+
+    public static void DFS(int start, int parent) {
+        parents[start] = parent;
+        for (int connected : graph[start]) {
+            if (connected != parent) {
+                DFS(connected, start);
+            }
         }
     }
 }
