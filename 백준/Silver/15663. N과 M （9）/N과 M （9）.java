@@ -9,25 +9,22 @@ public class Main {
     public static int[] arr;
     public static int[] newArr;
     public static boolean[] visited;
-    public static List<String> results = new ArrayList<>();
 
     public static void main(String[] args) throws IOException, NumberFormatException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            pq.add(Integer.parseInt(st.nextToken()));
-        }
         arr = new int[N];
         newArr = new int[M];
         visited = new boolean[N];
         hashSet = new LinkedHashSet<>();
+
         for (int i = 0; i < N; i++) {
-            arr[i] = pq.poll();
+            arr[i] = Integer.parseInt(st.nextToken());
         }
+        Arrays.sort(arr);
         backTracking(0);
         StringBuilder sb = new StringBuilder();
         for (String output : hashSet) {
