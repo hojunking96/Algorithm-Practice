@@ -5,28 +5,15 @@ import java.util.*;
 
 public class Main {
     static class Edge {
-        private int start;
-        private int end;
-        private int weight;
+        public int start;
+        public int end;
+        public int weight;
 
         public Edge(int start, int end, int weight) {
             this.start = start;
             this.end = end;
             this.weight = weight;
         }
-
-        public int getStart() {
-            return start;
-        }
-
-        public int getEnd() {
-            return end;
-        }
-
-        public int getWeight() {
-            return weight;
-        }
-
     }
 
     public static int V, E;
@@ -46,7 +33,7 @@ public class Main {
             edges.add(new Edge(A, B, C));
         }
         parent = new int[V + 1];
-        edges.sort(Comparator.comparingInt(Edge::getWeight));
+        edges.sort((o1, o2) -> o1.weight - o2.weight);
         for (int i = 1; i < V + 1; i++) {
             parent[i] = i;
         }
@@ -57,11 +44,11 @@ public class Main {
         long totalWeight = 0;
         for (int i = 0; i < E; i++) {
             Edge edge = edges.get(i);
-            int start = edge.getStart();
-            int end = edge.getEnd();
+            int start = edge.start;
+            int end = edge.end;
             if (findParent(start) != findParent(end)) {
                 union(start, end);
-                totalWeight += edge.getWeight();
+                totalWeight += edge.weight;
             }
         }
         return totalWeight;
