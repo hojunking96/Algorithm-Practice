@@ -19,14 +19,11 @@ class Solution {
 
     public static void dfs(int[] info, int[] tmp, int n, int depth, int start) {
         if (depth == n) {
-            for (int i = 0; i < n; i++) {
-                int[] arr = convertLion(tmp, n);
-//                int[] arr = {0, 2, 2, 0, 1, 0, 0, 0, 0, 0, 0};
-                int sum = calculate(info, arr);
-                if (max < sum) {
-                    max = sum;
-                    Lion = arr;
-                }
+            int[] arr = convertLion(tmp, n);
+            int sum = calculate(info, arr);
+            if (max < sum) {
+                max = sum;
+                Lion = arr;
             }
             return;
         }
