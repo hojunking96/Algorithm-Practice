@@ -1,119 +1,62 @@
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 
 class Solution {
-    static class House {
-        private int delivery;
-        private int pickup;
+   
+    static class Node {
+        int dist;
+        int boxCnt;
 
-        public House(int delivery, int pickup) {
-            this.delivery = delivery;
-            this.pickup = pickup;
+        public Node(int dist, int boxCnt) {
+            this.dist = dist;
+            this.boxCnt = boxCnt;
         }
-
-        public int getDelivery() {
-            return delivery;
-        }
-
-        public int getPickup() {
-            return pickup;
-        }
-
-        public void setDelivery(int delivery) {
-            this.delivery = delivery;
-        }
-
-        public void setPickup(int pickup) {
-            this.pickup = pickup;
-        }
-
     }
     
-    public static boolean deliveryEnd;
-    public static boolean pickupEnd;
-    
     public long solution(int cap, int n, int[] deliveries, int[] pickups) {
-          long answer = 0;
-        List<House> houses = new ArrayList<>();
-
+           Stack<Node> deliveryStack = new Stack<>();
+        Stack<Node> pickupStack = new Stack<>();
         for (int i = 0; i < n; i++) {
-            House house = new House(deliveries[i], pickups[i]);
-            houses.add(house);
-        }
-        if (!needDelivery(houses) && !needPickup(houses)) {
-            return 0;
-        }
-        while (houses.size() != 0) {
-            int houseIndex = houses.size();
-            if (!deliveryEnd)
-                go(cap, houses);
-            if (!pickupEnd) {
-                back(cap, houses);
+            if (deliveries[i] != 0) {
+                deliveryStack.push(new Node(i + 1, deliveries[i]));
             }
-            answer += houseIndex;
-            for (int i = houseIndex - 1; i >= 0; i--) {
-                if (houses.get(i).getDelivery() == 0 && houses.get(i).getPickup() == 0) {
-                    houses.remove(i);
-                } else {
+            if (pickups[i] != 0) {
+                pickupStack.push(new Node(i + 1, pickups[i]));
+            }
+        }
+        return count(cap, deliveryStack, pickupStack);
+    }
+
+   public static long count(int cap, Stack<Node> deliveryStack, Stack<Node> pickupStack) {
+         long dist = 0;
+        while (!deliveryStack.isEmpty() || !pickupStack.isEmpty()) {
+            int deliveryBox = cap;
+            int pickupBox = cap;
+            long dist1 = 0;
+            long dist2 = 0;
+            if (!deliveryStack.isEmpty()) {
+                dist1 = deliveryStack.peek().dist;
+            }
+            if (!pickupStack.isEmpty()) {
+                dist2 = pickupStack.peek().dist;
+            }
+            while (!deliveryStack.isEmpty()) {
+                Node lastDelivery = deliveryStack.pop();
+                deliveryBox -= lastDelivery.boxCnt;
+                if (deliveryBox < 0) {
+                    deliveryStack.push(new Node(lastDelivery.dist, Math.abs(deliveryBox)));
                     break;
                 }
             }
-        }
-        answer *= 2;
-        return answer;
-    }
-
-    public static void go(int cap, List<House> houses) {
-        int box = cap;
-        int endPoint = houses.size() - 1;
-        int i;
-        for (i = endPoint; i >= 0; i--) {
-            int lastDelivery = houses.get(i).getDelivery();
-            if (box > lastDelivery) {
-                box -= lastDelivery;
-                houses.get(i).setDelivery(0);
-            } else {
-                houses.get(i).setDelivery(lastDelivery - box);
-                break;
+            while (!pickupStack.isEmpty()) {
+                Node lastPickup = pickupStack.pop();
+                pickupBox -= lastPickup.boxCnt;
+                if (pickupBox < 0) {
+                    pickupStack.push(new Node(lastPickup.dist, Math.abs(pickupBox)));
+                    break;
+                }
             }
+            dist += Math.max(dist1, dist2);
         }
-        if (i == -1 && houses.get(0).getDelivery() == 0)
-            deliveryEnd = true;
-    }
-
-    public static void back(int cap, List<House> houses) {
-        int box = cap;
-        int endPoint = houses.size() - 1;
-        int i;
-        for (i = endPoint; i >= 0; i--) {
-            int lastPickup = houses.get(i).getPickup();
-            if (box > lastPickup) {
-                box -= lastPickup;
-                houses.get(i).setPickup(0);
-
-            } else {
-                houses.get(i).setPickup(lastPickup - box);
-                break;
-            }
-        }
-        if (i == -1 && houses.get(0).getPickup() == 0)
-            pickupEnd = true;
-    }
-
-    public static boolean needDelivery(List<House> houses) {
-        for (int i = 0; i < houses.size(); i++) {
-            if (houses.get(i).getDelivery() != 0)
-                return true;
-        }
-        return false;
-    }
-
-    public static boolean needPickup(List<House> houses) {
-        for (int i = 0; i < houses.size(); i++) {
-            if (houses.get(i).getPickup() != 0)
-                return true;
-        }
-        return false;
+        return dist * 2;
     }
 }
