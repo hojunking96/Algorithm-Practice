@@ -1,96 +1,80 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
-    private static final int INF = Integer.MAX_VALUE;
-    static int[] D;
-    static int V, E, S;
-    static ArrayList<ArrayList<Node>> graph = new ArrayList<ArrayList<Node>>();
 
-    private static class Node implements Comparable<Node> {
-        private int index;
-        private int distance;
+    static class Node {
+        int v;
+        int w;
 
-        public Node(int index, int distance) {
-            this.index = index;
-            this.distance = distance;
-        }
-
-        public int getIndex() {
-            return this.index;
-        }
-
-        public int getDistance() {
-            return this.distance;
-        }
-
-        @Override
-        public int compareTo(Node o) {
-            if (this.distance < o.distance)
-                return -1;
-            return 1;
+        public Node(int v, int w) {
+            this.v = v;
+            this.w = w;
         }
     }
 
-    static void dijkstra(int start) {
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.offer(new Node(start, 0));
-        D[S] = 0;
-        while (!pq.isEmpty()) {
-            Node node = pq.poll();
-            int now = node.getIndex();
-            int dist = node.getDistance();
-            if (D[now] < dist)
-                continue;
-            for (int i = 0; i < graph.get(now).size(); i++) {
-                int cost = D[now] + graph.get(now).get(i).getDistance();
-                if (cost < D[graph.get(now).get(i).getIndex()]) {
-                    D[graph.get(now).get(i).getIndex()] = cost;
-                    pq.add(new Node(graph.get(now).get(i).getIndex(), cost));
-                }
-            }
-        }
-    }
+    public static int V, E;
+    public static int[] dist;
+    public static boolean[] visited;
+    public static ArrayList<ArrayList<Node>> graph;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, NumberFormatException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
         StringTokenizer st = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
         V = Integer.parseInt(st.nextToken());
         E = Integer.parseInt(st.nextToken());
-        S = Integer.parseInt(br.readLine());
-
-        D = new int[V + 1];
-        Arrays.fill(D, INF);
-
-        for (int i = 0; i <= V; i++)
+        int start = Integer.parseInt(br.readLine());
+        graph = new ArrayList<>();
+        for (int i = 0; i <= V; i++) {
             graph.add(new ArrayList<>());
+        }
 
         for (int i = 0; i < E; i++) {
             st = new StringTokenizer(br.readLine());
-            int u = Integer.parseInt(st.nextToken());
-            int v = Integer.parseInt(st.nextToken());
-            int w = Integer.parseInt(st.nextToken());
-            graph.get(u).add(new Node(v, w));
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int c = Integer.parseInt(st.nextToken());
+            graph.get(a).add(new Node(b, c));
         }
+        visited = new boolean[V + 1];
+        dist = new int[V + 1];
+        for (int i = 1; i <= V; i++) {
+            dist[i] = Integer.MAX_VALUE;
+        }
+        dijkstra(start);
+        for (int i = 1; i <= V; i++) {
+            if (i == start) {
+                sb.append("0").append("\n");
+                continue;
+            }
+            if (dist[i] == Integer.MAX_VALUE) {
+                sb.append("INF").append("\n");
+                continue;
+            }
+            sb.append(dist[i]);
+            sb.append("\n");
+        }
+        System.out.println(sb);
+    }
 
-        dijkstra(S);
-        for (int i = 1; i < V + 1; i++) {
-            if (D[i] == INF)
-                bw.write("INF\n");
-            else
-                bw.write(D[i] + "\n");
+    public static void dijkstra(int start) {
+        PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o.w));
+        dist[start] = 0;
+        pq.add(new Node(start, 0));
+        while (!pq.isEmpty()) {
+            Node now = pq.poll();
+            if (!visited[now.v]) {
+                visited[now.v] = true;
+                for (Node next : graph.get(now.v)) {
+                    if (!visited[next.v] && dist[next.v] > dist[now.v] + next.w) {
+                        dist[next.v] = dist[now.v] + next.w;
+                        pq.add(new Node(next.v, dist[next.v]));
+                    }
+                }
+            }
         }
-        bw.flush();
-        bw.close();
-        br.close();
     }
 }
