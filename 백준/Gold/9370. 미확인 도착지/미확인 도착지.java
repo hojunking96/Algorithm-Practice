@@ -16,7 +16,7 @@ public class Main {
     }
 
     public static int n, m, t;
-    public final static int INF = 2000000000;
+    public final static int INF = 7000000;
     public static ArrayList<ArrayList<Node>> graph;
     public static int[] dist; //첫 번째 인덱스에서 두 번째 인덱스로 가는 최소 길이
 
