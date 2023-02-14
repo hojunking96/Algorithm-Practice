@@ -1,46 +1,39 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
 public class Main {
+
     public static void main(String[] args) throws IOException, NumberFormatException {
-        int K, N;
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        K = Integer.parseInt(st.nextToken());
-        N = Integer.parseInt(st.nextToken());
-        int[] X = new int[K];
-        long max = 0, min = 1;
+        int K = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
+        int[] arr = new int[K];
 
+        long left = 1;
+        long right = 0;
         for (int i = 0; i < K; i++) {
-            X[i] = Integer.parseInt(br.readLine());
-            if (max < X[i])
-                max = X[i];
-        }
-        max++;
-        if (N == 1 && K == 1)
-            bw.write(X[0] + "\n");
-        else {
-            while (min < max) {
-                long mid = (max - min) / 2 + min;
-                int count = 0;
-                for (int i = 0; i < K; i++) {
-                    count += X[i] / mid;
-                }
-                if (count < N)
-                    max = mid;
-                else
-                    min = mid + 1;
+            arr[i] = Integer.parseInt(br.readLine());
+            if (arr[i] > right) {
+                right = arr[i];
             }
-            bw.write(min - 1 + "\n");
         }
-        bw.flush();
-        bw.close();
-        br.close();
+        while (left <= right) {
+            long mid = (right + left) / 2;
+            long sum = 0;
+            for (int j = 0; j < K; j++) {
+                if (arr[j] >= mid) {
+                    sum += arr[j] / mid;
+                }
+            }
+            if (sum < N) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        System.out.println(right);
     }
 }
