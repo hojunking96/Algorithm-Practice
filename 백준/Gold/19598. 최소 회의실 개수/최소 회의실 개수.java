@@ -17,14 +17,6 @@ public class Main {
             this.end = end;
         }
 
-        public int getStart() {
-            return start;
-        }
-
-        public int getEnd() {
-            return end;
-        }
-
         @Override
         public int compareTo(Time target) {
             if (this.start > target.start) {
