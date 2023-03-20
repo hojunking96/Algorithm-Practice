@@ -10,11 +10,11 @@ class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         int N = Integer.parseInt(br.readLine());
-        int[] arr = new int[N];
+        Integer[] arr = new Integer[N];
         for (int i = 0; i < N; i++) {
             arr[i] = Integer.parseInt(br.readLine());
         }
-        Arrays.sort(arr);
+        Arrays.sort(arr, (x, y) -> x - y);
         for (int e : arr) {
             sb.append(e).append("\n");
         }
