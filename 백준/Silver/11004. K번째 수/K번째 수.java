@@ -4,53 +4,55 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static void quickSort(int[] arr) {
-        sort(arr, 0, arr.length - 1);
-    }
+    private static int[] arr;
 
-    private static void sort(int[] arr, int low, int high) {
-        if (low >= high)
-            return;
-
-        int mid = partition(arr, low, high);
-        sort(arr, low, mid - 1);
-        sort(arr, mid, high);
-    }
-
-    private static int partition(int[] arr, int low, int high) {
-        int pivot = arr[(low + high) / 2];
-        while (low <= high) {
-            while (arr[low] < pivot)
-                low++;
-            while (arr[high] > pivot)
-                high--;
-            if (low <= high) {
-                swap(arr, low, high);
-                low++;
-                high--;
-            }
-        }
-        return low;
-    }
-
-    private static void swap(int[] arr, int i, int j) {
-        int tmp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = tmp;
-    }
-
-    public static void main(String[] args) throws IOException, NumberFormatException {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
-        int X[] = new int[N];
+
+        arr = new int[N];
+
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
-            X[i] = Integer.parseInt(st.nextToken());
+            arr[i] = Integer.parseInt(st.nextToken());
         }
-        quickSort(X);
-        System.out.println(X[K - 1]);
+        quickSort(N);
+        System.out.println(arr[K - 1]);
+    }
+
+    private static void quickSort(int N) {
+        sort(0, N - 1);
+    }
+
+    private static void sort(int left, int right) {
+        if (left >= right) {
+            return;
+        }
+        int mid = partition(left, right);
+        sort(left, mid - 1);
+        sort(mid, right);
+    }
+
+    private static int partition(int left, int right) {
+        int pivot = arr[(left + right) / 2];
+        while (left <= right) {
+            while (arr[left] < pivot) {
+                left++;
+            }
+            while (arr[right] > pivot) {
+                right--;
+            }
+            if (left <= right) {
+                int tmp = arr[left];
+                arr[left] = arr[right];
+                arr[right] = tmp;
+                left++;
+                right--;
+            }
+        }
+        return left;
     }
 }
