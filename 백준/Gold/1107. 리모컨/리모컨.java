@@ -12,20 +12,15 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
         int M = Integer.parseInt(br.readLine());
 
+        calcCnt1(N);
         if (M == 0) {
-            if (N >= 99 && N <= 102) {
-                calcCnt1(N);
-            } else {
-                min = ("" + N).length();
-            }
+            min = Math.min(min,("" + N).length());
         } else {
             String[] arr = new String[M];
             StringTokenizer st = new StringTokenizer(br.readLine());
             for (int i = 0; i < M; i++) {
                 arr[i] = st.nextToken();
             }
-
-            calcCnt1(N);
             calcCnt2(N, arr);
         }
         System.out.println(min);
