@@ -8,26 +8,19 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int[] times = new int[3];
-        String[] input = br.readLine().split(" ");
+        String[] times = br.readLine().split(" ");
         Set<String>[] members = new Set[2];
         for (int i = 0; i < 2; i++) {
             members[i] = new HashSet<>();
         }
-        
-        for (int i = 0; i < 3; i++) {
-            times[i] = Integer.parseInt(input[i].replace(':', '0'));
-        }
-
 
         String str = null;
         while ((str = br.readLine()) != null) {
             String[] str2 = str.split(" ");
-            int time = Integer.parseInt(str2[0].replace(':', '0'));
             String name = str2[1];
-            if (time <= times[0]) {
+            if (str2[0].compareTo(times[0]) <= 0) {
                 members[0].add(name);
-            } else if (time >= times[1] && time <= times[2]) {
+            } else if (str2[0].compareTo(times[1]) >= 0 && str2[0].compareTo(times[2]) <= 0) {
                 members[1].add(name);
             }
         }
