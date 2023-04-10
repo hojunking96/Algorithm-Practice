@@ -10,27 +10,22 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int M = Integer.parseInt(st.nextToken());
         int N = Integer.parseInt(st.nextToken());
-        findPrimeNumber(M, N);
-    }
+        boolean[] isNotPrime = new boolean[N + 1];
+        StringBuilder sb = new StringBuilder();
+        isNotPrime[1] = true;
 
-    public static void findPrimeNumber(int M, int N) {
-        int[] numbers = new int[N + 1];
         for (int i = 2; i <= N; i++) {
-            numbers[i] = i;
+            if (!isNotPrime[i]) {
+                for (int j = i + i; j <= N; j += i) {
+                    isNotPrime[j] = true;
+                }
+            }
         }
-        checkPrimeNumber(N, numbers);
         for (int i = M; i <= N; i++) {
-            if (numbers[i] != 0)
-                System.out.println(numbers[i]);
+            if (!isNotPrime[i]) {
+                sb.append(i).append("\n");
+            }
         }
-    }
-
-    public static void checkPrimeNumber(int last, int[] numbers) {
-        for (int i = 2; i <= last; i++) {
-            if (numbers[i] == 0)
-                continue;
-            for (int j = i + i; j <= last; j += i)
-                numbers[j] = 0;
-        }
+        System.out.println(sb);
     }
 }
