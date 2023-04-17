@@ -1,99 +1,85 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 
 public class Main {
+    static class Point {
+        int x;
+        int y;
 
-    static class XY {
-        public int x;
-        public int y;
-
-        public XY(int x, int y) {
+        public Point(int x, int y) {
             this.x = x;
             this.y = y;
         }
     }
 
-    public static int N;
+    private static char[][] board;
+    private static int cnt3Color;
+    private static int cnt2Color;
+    private static boolean[][] visited;
+    private static int[] dX = {-1, 0, 1, 0};
+    private static int[] dY = {0, -1, 0, 1};
+    private static int N;
 
-    public static int[] dX = {1, 0, -1, 0};
-    public static int[] dY = {0, 1, 0, -1};
-
-    public static void main(String[] args) throws IOException, NumberFormatException {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
-        char[][] graph = new char[N][N];
-        char[][] weak = new char[N][N];
+
+        board = new char[N][N];
+        visited = new boolean[N][N];
+
         for (int i = 0; i < N; i++) {
-            String input = br.readLine();
-            for (int j = 0; j < N; j++) {
-                char color = input.charAt(j);
-                graph[i][j] = color;
-                weak[i][j] = color;
-            }
+            board[i] = br.readLine().toCharArray();
         }
-        int cnt1 = 0;
-        int cnt2 = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (graph[i][j] == 'R') {
-                    BFS1(graph, new XY(i, j), 'R');
-                    cnt1++;
-                }
-                if (graph[i][j] == 'G') {
-                    BFS1(graph, new XY(i, j), 'G');
-                    cnt1++;
-                }
-                if (graph[i][j] == 'B') {
-                    BFS1(graph, new XY(i, j), 'B');
-                    cnt1++;
-                }
-                if (weak[i][j] == 'R' || weak[i][j] == 'G') {
-                    BFS2(weak, new XY(i, j));
-                    cnt2++;
-                }
-                if (weak[i][j] == 'B') {
-                    BFS1(weak, new XY(i, j), 'B');
-                    cnt2++;
+                if (!visited[i][j]) {
+                    BFS(new Point(i, j), board[i][j]);
+                    cnt3Color++;
                 }
             }
         }
-        System.out.println(cnt1 + " " + cnt2);
-    }
-
-    public static void BFS1(char[][] graph, XY start, char color) {
-        Queue<XY> q = new LinkedList<>();
-        q.add(start);
-        graph[start.x][start.y] = 'X';
-        while (!q.isEmpty()) {
-            XY now = q.poll();
-            for (int i = 0; i < 4; i++) {
-                XY next = new XY(now.x + dX[i], now.y + dY[i]);
-                if (next.x >= 0 && next.x < N && next.y >= 0 && next.y < N) {
-                    if (graph[next.x][next.y] == color) {
-                        q.add(next);
-                        graph[next.x][next.y] = 'X';
-                    }
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (board[i][j] == 'G') {
+                    board[i][j] = 'R';
                 }
             }
         }
+        visited = new boolean[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (!visited[i][j]) {
+                    BFS(new Point(i, j), board[i][j]);
+                    cnt2Color++;
+                }
+            }
+        }
+        System.out.println(cnt3Color + " " + cnt2Color);
+
     }
 
-    public static void BFS2(char[][] graph, XY start) {
-        Queue<XY> q = new LinkedList<>();
+    private static void BFS(Point start, char color) {
+        Queue<Point> q = new LinkedList<>();
         q.add(start);
-        graph[start.x][start.y] = 'X';
+        visited[start.x][start.y] = true;
+
         while (!q.isEmpty()) {
-            XY now = q.poll();
+            Point now = q.poll();
             for (int i = 0; i < 4; i++) {
-                XY next = new XY(now.x + dX[i], now.y + dY[i]);
-                if (next.x >= 0 && next.x < N && next.y >= 0 && next.y < N) {
-                    if (graph[next.x][next.y] == 'R' || graph[next.x][next.y] == 'G') {
-                        q.add(next);
-                        graph[next.x][next.y] = 'X';
-                    }
+                int nextX = now.x + dX[i];
+                int nextY = now.y + dY[i];
+
+                if (nextX < 0 || nextX >= N || nextY < 0 || nextY >= N) {
+                    continue;
+                }
+                if (!visited[nextX][nextY] && board[nextX][nextY] == color) {
+                    q.add(new Point(nextX, nextY));
+                    visited[nextX][nextY] = true;
                 }
             }
         }
