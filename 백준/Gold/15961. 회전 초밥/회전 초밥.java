@@ -59,7 +59,6 @@ public class Main {
                 numCnt++;
             }
             cnt[next]++;
-            history[N + i] = next;
 
             if (cnt[history[i - k + N]] == 1) {
                 numCnt--;
