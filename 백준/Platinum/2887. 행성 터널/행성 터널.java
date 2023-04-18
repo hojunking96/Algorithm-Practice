@@ -18,7 +18,7 @@ public class Main {
         }
     }
 
-    private static class Edge {
+    private static class Edge implements Comparable<Edge> {
         public int start;
         public int end;
         public long weight;
@@ -28,11 +28,16 @@ public class Main {
             this.end = end;
             this.weight = weight;
         }
+
+        @Override
+        public int compareTo(Edge o) {
+            return (int) (this.weight - o.weight);
+        }
     }
 
     private static int N;
     private static int[] parent;
-    private static List<Edge> edges = new ArrayList<>();
+    private static PriorityQueue<Edge> edges = new PriorityQueue<>();
     private static List<Planet> planets = new ArrayList<>();
 
 
@@ -74,7 +79,6 @@ public class Main {
             parent[i] = i;
         }
 
-        edges.sort((o1, o2) -> Math.toIntExact(o1.weight - o2.weight));
 
         parent = new int[N + 1];
         for (int i = 1; i < N + 1; i++) {
@@ -86,7 +90,8 @@ public class Main {
     private static long Kruscal() {
         long totalWeight = 0;
         int cnt = 0;
-        for (Edge edge : edges) {
+        while (!edges.isEmpty()) {
+            Edge edge = edges.poll();
             int start = edge.start;
             int end = edge.end;
             if (findParent(start) != findParent(end)) {
