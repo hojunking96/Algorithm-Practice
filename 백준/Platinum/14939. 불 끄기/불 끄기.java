@@ -15,6 +15,7 @@ public class Main {
 
         board = new char[10][10];
         tmpBoard = new char[10][10];
+
         for (int i = 0; i < 10; i++) {
             board[i] = br.readLine().toCharArray();
         }
@@ -25,61 +26,30 @@ public class Main {
         makeFirstLine(1, "", 2);
 
         for (int t = 0; t < 1024; ++t) {
-
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 10; j++) {
-                    tmpBoard[i][j] = board[i][j];
-                }
-            }
             cnt = 0;
+            copy();
 
+            //1번째 줄 선택
             String e = firstLine.get(t);
-//            String e = "OOOOOOOOOO";
             for (int i = 0; i < 10; i++) {
                 if (e.charAt(i) == 'O') {
-                    for (int k = 0; k < 5; k++) {
-                        int nextX = 0 + dX[k];
-                        int nextY = i + dY[k];
-                        if (nextX >= 0 && nextX < 10 && nextY >= 0 && nextY < 10) {
-                            if (tmpBoard[nextX][nextY] == 'O') {
-                                tmpBoard[nextX][nextY] = '#';
-                            } else {
-                                tmpBoard[nextX][nextY] = 'O';
-                            }
-                        }
-                    }
+                    pushSwitch(0, i);
                     cnt++;
                 }
             }
 
-
+            //2~9번쨰 줄 선택
             for (int i = 1; i < 10; i++) {
                 for (int j = 0; j < 10; j++) {
                     if (tmpBoard[i - 1][j] == 'O') {
-                        for (int k = 0; k < 5; k++) {
-                            int nextX = i + dX[k];
-                            int nextY = j + dY[k];
-                            if (nextX >= 0 && nextX < 10 && nextY >= 0 && nextY < 10) {
-                                if (tmpBoard[nextX][nextY] == 'O') {
-                                    tmpBoard[nextX][nextY] = '#';
-                                } else {
-                                    tmpBoard[nextX][nextY] = 'O';
-                                }
-                            }
-                        }
+                        pushSwitch(i, j);
                         cnt++;
                     }
                 }
             }
 
-            boolean flag = false;
-            for (int i = 0; i < 10; i++) {
-                if (tmpBoard[9][i] == 'O') {
-                    flag = true;
-                    break;
-                }
-            }
-            if (!flag) {
+            //10번째 줄 확인
+            if (!cannotMake()) {
                 answer = Math.min(answer, cnt);
             }
         }
@@ -103,20 +73,37 @@ public class Main {
         makeFirstLine(depth + 1, output, 1);
         makeFirstLine(depth + 1, output, 2);
     }
+
+    private static void copy() {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                tmpBoard[i][j] = board[i][j];
+            }
+        }
+    }
+
+    private static void pushSwitch(int x, int y) {
+        for (int k = 0; k < 5; k++) {
+            int nextX = x + dX[k];
+            int nextY = y + dY[k];
+            if (nextX >= 0 && nextX < 10 && nextY >= 0 && nextY < 10) {
+                if (tmpBoard[nextX][nextY] == 'O') {
+                    tmpBoard[nextX][nextY] = '#';
+                } else {
+                    tmpBoard[nextX][nextY] = 'O';
+                }
+            }
+        }
+    }
+
+    private static boolean cannotMake() {
+        boolean flag = false;
+        for (int i = 0; i < 10; i++) {
+            if (tmpBoard[9][i] == 'O') {
+                flag = true;
+                break;
+            }
+        }
+        return flag;
+    }
 }
-
-/*
-
-O########O
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-#OOOOOOOO#
-O########O
-
-
- */
