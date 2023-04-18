@@ -85,12 +85,14 @@ public class Main {
 
     private static long Kruscal() {
         long totalWeight = 0;
+        int cnt = 0;
         for (Edge edge : edges) {
             int start = edge.start;
             int end = edge.end;
             if (findParent(start) != findParent(end)) {
                 union(start, end);
                 totalWeight += edge.weight;
+                if (++cnt == N - 1) break;
             }
         }
         return totalWeight;
@@ -110,16 +112,3 @@ public class Main {
         }
     }
 }
-
-/*
-6
-0 0 0
-1 1 1
--5 -5 -5
--6 -6 170
--1 -1 170
--4 -4 172
-
-답 : 4
-
- */
