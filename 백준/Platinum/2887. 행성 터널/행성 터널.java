@@ -37,8 +37,8 @@ public class Main {
 
     private static int N;
     private static int[] parent;
-    private static PriorityQueue<Edge> edges = new PriorityQueue<>();
-    private static List<Planet> planets = new ArrayList<>();
+    private static final PriorityQueue<Edge> edges = new PriorityQueue<>();
+    private static final List<Planet> planets = new ArrayList<>();
 
 
     public static void main(String[] args) throws IOException, NumberFormatException {
@@ -53,21 +53,21 @@ public class Main {
             planets.add(new Planet(i, A, B, C));
         }
 // x, y, z 각각에 대해서 정렬하고 각 행성의 번호와 비용을 edgeList에 추가.
-        Collections.sort(planets, Comparator.comparingInt(o -> o.x));
+        planets.sort(Comparator.comparingInt(o -> o.x));
         for (int i = 0; i < N - 1; i++) {
             int weight = Math.abs(planets.get(i).x - planets.get(i + 1).x);
 
             edges.add(new Edge(planets.get(i).num, planets.get(i + 1).num, weight));
         }
 
-        Collections.sort(planets, Comparator.comparingInt(p -> p.y));
+        planets.sort(Comparator.comparingInt(p -> p.y));
         for (int i = 0; i < N - 1; i++) {
             int weight = Math.abs(planets.get(i).y - planets.get(i + 1).y);
 
             edges.add(new Edge(planets.get(i).num, planets.get(i + 1).num, weight));
         }
 
-        Collections.sort(planets, Comparator.comparingInt(p -> p.z));
+        planets.sort(Comparator.comparingInt(p -> p.z));
         for (int i = 0; i < N - 1; i++) {
             int weight = Math.abs(planets.get(i).z - planets.get(i + 1).z);
 
