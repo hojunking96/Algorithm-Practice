@@ -14,23 +14,21 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         board = new char[10][10];
-        tmpBoard = new char[10][10];
-
         for (int i = 0; i < 10; i++) {
             board[i] = br.readLine().toCharArray();
         }
+        tmpBoard = new char[10][10];
+
         int answer = 101;
-        int cnt;
 
         makeFirstLine(1, "", 1);
         makeFirstLine(1, "", 2);
 
-        for (int t = 0; t < 1024; ++t) {
-            cnt = 0;
+        for (String e : firstLine) {
+            int cnt = 0;
             copy();
 
             //1번째 줄 선택
-            String e = firstLine.get(t);
             for (int i = 0; i < 10; i++) {
                 if (e.charAt(i) == 'O') {
                     pushSwitch(0, i);
@@ -60,18 +58,19 @@ public class Main {
         System.out.println(answer);
     }
 
-    private static void makeFirstLine(int depth, String output, int mod) {
-        if (mod == 1) {
+    private static void makeFirstLine(int depth, String output, int mode) {
+        if (mode == 1) {
             output += 'O';
         } else {
-            output += '#';
+            output += 'X';
         }
         if (depth == 10) {
             firstLine.add(output);
             return;
         }
-        makeFirstLine(depth + 1, output, 1);
-        makeFirstLine(depth + 1, output, 2);
+        for (int i = 0; i < 2; i++) {
+            makeFirstLine(depth + 1, output, i);
+        }
     }
 
     private static void copy() {
