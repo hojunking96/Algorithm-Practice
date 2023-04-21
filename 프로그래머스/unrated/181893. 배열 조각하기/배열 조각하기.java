@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public int[] solution(int[] arr, int[] query) {
         int start = 0;
@@ -13,10 +15,6 @@ class Solution {
         if (start > end) {
             return new int[]{-1};
         }
-        int[] answer = new int[end - start + 1];
-        for (int i = start, j = 0; i <= end; i++, j++) {
-            answer[j] = arr[i];
-        }
-        return answer;
+        return Arrays.copyOfRange(arr, start, end + 1);
     }
 }
