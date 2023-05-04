@@ -1,60 +1,77 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
+    static class Node {
+        char value;
+        char leftChild;
+        char rightChild;
 
-    public static StringBuilder sb = new StringBuilder();
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
-        Map<String, String[]> graph = new HashMap<>();
-        for (int i = 0; i < N; i++) {
-            String[] input = br.readLine().split(" ");
-            String parent = input[0];
-            String[] child = new String[2];
-            child[0] = input[1];
-            child[1] = input[2];
-            graph.put(parent, child);
+        public Node(char value, char leftChild, char rightChild) {
+            this.value = value;
+            this.leftChild = leftChild;
+            this.rightChild = rightChild;
         }
-        preOrder(graph, "A");
+    }
+
+    private static int N;
+    private static Node[] graph;
+    private static StringBuilder sb = new StringBuilder();
+    private static Map<Character, Integer> map = new HashMap<>();
+
+    public static void main(String[] args) throws IOException, NumberFormatException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        graph = new Node[N + 1];
+        map.put('.', 0);
+        graph[0] = new Node('.', '.', '.');
+        for (int i = 1; i <= N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            char v = st.nextToken().charAt(0);
+            char lc = st.nextToken().charAt(0);
+            char rc = st.nextToken().charAt(0);
+            graph[i] = new Node(v, lc, rc);
+            map.put(v, i);
+        }
+
+        preOrder(1);
         sb.append("\n");
-        inOrder(graph, "A");
+        inOrder(1);
         sb.append("\n");
-        postOrder(graph, "A");
+        postOrder(1);
+
         System.out.println(sb);
     }
 
-    public static void preOrder(Map<String, String[]> graph, String start) {
-        sb.append(start);
-        String left = graph.get(start)[0];
-        String right = graph.get(start)[1];
-        if (!left.equals(".")) {
-            preOrder(graph, left);
+    private static void preOrder(int k) {
+        Node node = graph[k];
+        if (node.value == '.') {
+            return;
         }
-        if (!right.equals(".")) {
-            preOrder(graph, right);
-        }
+        sb.append(node.value);
+        preOrder(map.get(node.leftChild));
+        preOrder(map.get(node.rightChild));
     }
-    public static void inOrder(Map<String, String[]> graph, String start) {
-        String left = graph.get(start)[0];
-        String right = graph.get(start)[1];
-        if (!left.equals(".")) {
-            inOrder(graph, left);
+
+    private static void inOrder(int k) {
+        Node node = graph[k];
+        if (node.value == '.') {
+            return;
         }
-        sb.append(start);
-        if (!right.equals(".")) {
-            inOrder(graph, right);
+        inOrder(map.get(node.leftChild));
+        sb.append(node.value);
+        inOrder(map.get(node.rightChild));
+    }
+
+    private static void postOrder(int k) {
+        Node node = graph[k];
+        if (node.value == '.') {
+            return;
         }
-    } public static void postOrder(Map<String, String[]> graph, String start) {
-        String left = graph.get(start)[0];
-        String right = graph.get(start)[1];
-        if (!left.equals(".")) {
-            postOrder(graph, left);
-        }
-        if (!right.equals(".")) {
-            postOrder(graph, right);
-        }
-        sb.append(start);
+        postOrder(map.get(node.leftChild));
+        postOrder(map.get(node.rightChild));
+        sb.append(node.value);
     }
 }
