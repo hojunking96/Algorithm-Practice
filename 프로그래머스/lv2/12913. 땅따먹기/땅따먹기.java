@@ -8,10 +8,6 @@ class Solution {
             dp[0][i] = land[0][i];
         }
         
-        /*
-        자, 0번은 나머지 3개중 최대 + 현재
-        
-        */
         for(int i = 1; i < n; i++){
             for(int j = 0; j < 4; j++){
                 for(int k = 0 ; k < 4; k++){
