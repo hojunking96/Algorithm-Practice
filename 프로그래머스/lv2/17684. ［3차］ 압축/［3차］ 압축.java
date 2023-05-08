@@ -13,6 +13,8 @@ class Solution {
         for (int i = 0; i < msg.length(); i++) {
             String key = "" + msg.charAt(i);
             int num = 0;
+            
+            
             while (map.containsKey(key)) {
                 i++;
                 num = map.get(key);
@@ -21,7 +23,7 @@ class Solution {
                 }
                 key += msg.charAt(i);
             }
-            map.put(key.substring(0, key.length()), index++);
+            map.put(key, index++);
             arr.add(num);
             i--;
             if (i == msg.length() - 1) {
