@@ -1,7 +1,9 @@
 import java.util.*;
 
 class Solution {
+    
     private static Map<String, Integer> map;
+    
     public int solution(String[] want, int[] number, String[] discount) {
         int answer = 0;
         map = new HashMap<>();
@@ -10,6 +12,7 @@ class Solution {
         for(int i = 0; i < len; i++){
             map.put(discount[i], 0);
         }
+        
         for(int i = 0; i < 10; i++){
             plus(discount[i]);
         }
@@ -19,8 +22,8 @@ class Solution {
         
         int left = 0;
         for(int i = 10; i < len; i++){
-            plus(discount[i % len]);
-            minus(discount[left++ % len]);
+            plus(discount[i]);
+            minus(discount[left++]);
             if(check(want, number)){
                 answer++;
             }
