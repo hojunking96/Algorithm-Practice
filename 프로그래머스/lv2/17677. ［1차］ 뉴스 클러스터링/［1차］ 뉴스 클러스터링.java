@@ -8,13 +8,13 @@ class Solution {
         List<String> arr2 = new ArrayList<>();
         for(int i = 0; i < str1.length() - 1; i++){
             String tmp = str1.substring(i, i + 2);
-            if(tmp.matches("^[a-zA-Z]*$")){
+            if(tmp.matches("^[a-z]*$")){
                 arr1.add(tmp);
             }
         }
         for(int i = 0; i < str2.length() - 1; i++){
             String tmp = str2.substring(i, i + 2);
-            if(tmp.matches("^[a-zA-Z]*$")){
+            if(tmp.matches("^[a-z]*$")){
                 arr2.add(tmp);
             }
         }
