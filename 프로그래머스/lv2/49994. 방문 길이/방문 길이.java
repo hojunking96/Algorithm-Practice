@@ -15,11 +15,11 @@ class Solution {
         map.put('U', 2);
         map.put('R', 3);
         
-        char[] arr = dirs.toCharArray();
         int nowX = 0;
         int nowY = 0;
         int totalMoveCnt = 0;
         int duplicateCnt = 0;
+        char[] arr = dirs.toCharArray();
         for(char e : arr){
             int direction = map.get(e);
             int nextX = nowX + dX[direction];
