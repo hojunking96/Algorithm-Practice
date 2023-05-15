@@ -1,7 +1,6 @@
 class Solution {
     
     private static int cnt[];
-    private static boolean[] compacted;
     
     public int[] solution(int[][] arr) {
         cnt = new int[2];
