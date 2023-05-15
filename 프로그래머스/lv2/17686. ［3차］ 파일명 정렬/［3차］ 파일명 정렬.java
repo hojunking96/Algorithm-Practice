@@ -42,11 +42,9 @@ class Solution {
                 return n1 - n2;
             }
             return str1.compareTo(str2);
-        });        
-        List<String> arr = new ArrayList<>();
-        for(File e : list){
-            arr.add(e.head + e.number + e.tail);
-        }
-        return arr.toArray(new String[arr.size()]);
+        });
+        return list.stream()
+            .map(x -> x.head + x.number + x.tail)
+            .toArray(String[]::new);
     }
 }
