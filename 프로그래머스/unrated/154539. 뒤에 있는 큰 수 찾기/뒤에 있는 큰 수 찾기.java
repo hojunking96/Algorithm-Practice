@@ -17,11 +17,10 @@ class Solution {
                 stack.pop();
             }
             if(stack.isEmpty()){
-               answer[i] = -1;
+                answer[i] = -1;
                 stack.add(numbers[i]);
             }
         }
-        
         return answer;
     }
 }
