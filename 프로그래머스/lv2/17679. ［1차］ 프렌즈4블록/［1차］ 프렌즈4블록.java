@@ -1,9 +1,11 @@
 import java.util.*;
 
 class Solution {
+    
     private static char[][] kakao;
     private static boolean[][] isBroken;
     private static final char EMPTY = 'e';
+    
     public int solution(int m, int n, String[] board) {
         kakao = new char[m][n];
         for(int i = 0; i < m; i++){
@@ -19,6 +21,7 @@ class Solution {
         }
         return count(m, n);
     }
+    
     private static int count(int m, int n){
         int cnt = 0;
         for(int i = 0; i < m; i++){
@@ -30,6 +33,7 @@ class Solution {
         }
         return cnt;
     }
+    
     private static boolean doBreak(int m, int n){
         boolean hasBroken = false;
         for(int i = 0; i < m - 1; i++){
@@ -39,16 +43,13 @@ class Solution {
                     isBroken[i][j + 1] = true;
                     isBroken[i + 1][j] = true;
                     isBroken[i + 1][j + 1] = true;
-                    // kakao[i][j] = EMPTY;
-                    // kakao[i][j + 1] = EMPTY;
-                    // kakao[i + 1][j] = EMPTY;
-                    // kakao[i + 1][j + 1] = EMPTY;
                     hasBroken = true;
                 }
             }
         }
         return hasBroken;
     }
+    
     private static boolean canDoBreak(int x, int y){
         char value = kakao[x][y];
         if(value == EMPTY){
@@ -58,22 +59,26 @@ class Solution {
             && value == kakao[x][y + 1] 
             && value == kakao[x + 1][y + 1];
     }
+    
     private static void fallDown(int m, int n){
         for(int i = 0; i < n; i++){
             List<Character> arr = new ArrayList<>();
+            int cnt = 0;
             for(int j = m - 1; j >= 0; j--){
                 if(kakao[j][i] != EMPTY){
                     arr.add(kakao[j][i]);
+                    cnt++;
                 }
             }
             for(int j = 0 ; j < arr.size(); j++){
                 kakao[m - j - 1][i] = arr.get(j);
             }
-            for(int j = m - arr.size() - 1; j >= 0 ; j--){
+            for(int j = m - 1 - cnt; j >= 0 ; j--){
                 kakao[j][i] = EMPTY;
             }
         }
     }
+    
     private static void changeBlock(int m, int n){
         for(int i = 0; i < m; i++){
             for(int j = 0; j < n; j++){
@@ -84,12 +89,3 @@ class Solution {
         }
     }
 }
-
-
-/*
-CCBDE
-AAADE
-AAABF
-CCBBF
-
-*/
