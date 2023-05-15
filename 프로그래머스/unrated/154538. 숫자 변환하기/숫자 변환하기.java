@@ -29,7 +29,7 @@ class Solution {
                 }
             }
             next = now * 2;
-            if(next <= y){                
+            if(next <= y){ 
                 if(cnt[next] == 0){
                     cnt[next] = cnt[now] + 1;
                     q.add(next);
