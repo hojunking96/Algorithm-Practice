@@ -7,7 +7,10 @@ class Solution {
     private static int[][] graph;
     
     public int[] solution(int n) {
-        graph = new int[n][n];
+        graph = new int[n][];
+        for(int i = 0; i < n; i++){
+            graph[i] = new int[i + 1];
+        }
         
         int x = 0;
         int y = 0;
