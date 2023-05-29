@@ -2,7 +2,6 @@ import java.util.*;
 
 class Solution {
     
-    
     private static List<List<Integer>> graph;
     private static boolean[] visited;
     private static List<Integer> cnts;
