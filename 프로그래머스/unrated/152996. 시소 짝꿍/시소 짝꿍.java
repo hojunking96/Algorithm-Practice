@@ -10,9 +10,6 @@ class Solution {
             map.put(weight, map.getOrDefault(weight, 0L) + 1);
         }
         for(int key : map.keySet()){
-            System.out.println(key + " / " + map.get(key));
-        }
-        for(int key : map.keySet()){
             //1:1
             cnt += map.get(key) * (map.get(key) - 1);
             //1:2
