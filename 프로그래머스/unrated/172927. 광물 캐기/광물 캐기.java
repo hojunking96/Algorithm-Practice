@@ -45,23 +45,24 @@ class Solution {
             }
             int pick = pq.poll();
             
-                if (arr[ptr] == -25) {
-                    if (pick == 0) {
-                        answer += 5;
-                        ptr++;
-                        continue;
-                    }
-                    arr[ptr] = 25;
+            if (arr[ptr] == -25) {
+                if (pick == 0) {
+                    answer += 5;
+                    ptr++;
+                    continue;
                 }
+                arr[ptr] = 25;
+            }
 
-                if (arr[ptr] == -5) {
-                    if (pick == 1) {
-                        answer += 5;
-                        ptr++;
-                        continue;
-                    }
-                    arr[ptr] = 5;
+            if (arr[ptr] == -5) {
+                if (pick == 1) {
+                    answer += 5;
+                    ptr++;
+                    continue;
                 }
+                arr[ptr] = 5;
+            }
+            
             if(pick == 0){
                 answer += arr[ptr] / 25 + arr[ptr] % 25 / 5 + arr[ptr] % 5;
             }    
