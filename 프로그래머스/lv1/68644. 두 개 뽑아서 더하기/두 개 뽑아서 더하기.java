@@ -6,10 +6,6 @@ class Solution {
     
     public int[] solution(int[] numbers) {
         search(0, numbers, 0, 0);
-        set.stream()
-            .mapToInt(Integer::intValue)
-            .sorted()
-            .toArray();
         return set.stream()
             .mapToInt(Integer::intValue)
             .sorted()
