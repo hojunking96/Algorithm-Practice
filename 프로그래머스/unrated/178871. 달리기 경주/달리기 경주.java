@@ -5,11 +5,13 @@ class Solution {
         String[] answer = new String[players.length];
         Map<String, Integer> map = new HashMap<>();
         int rank = 1;
+        
         for(String player : players){
             map.put(player, rank);
             answer[rank - 1] = player;
             rank++;
         }
+        
         for(String calling : callings){
             int now = map.get(calling);
             String nextPlayer = answer[now - 2];
