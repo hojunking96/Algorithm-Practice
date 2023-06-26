@@ -7,8 +7,7 @@ class Solution {
         int start = 1;
         int end = 0;
         for(int station : stations){
-            int point = station - w - 1;
-            end = point;
+            end = station - w - 1;
             if(end >= start){
                 arr.add(end - start + 1);      
             }
@@ -24,13 +23,6 @@ class Solution {
                 answer++;
             }
         }
-         
-        
         return answer;
     }
 }
-/*
-구간 길이를 구해
-
-
-*/
