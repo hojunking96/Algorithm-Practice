@@ -10,8 +10,8 @@ class Solution {
                     graph[i][j] = 0;
                 }
                 else{
-                    graph[i][j] = 1_000_000;
-                } 
+                    graph[i][j] = 20_000_000;
+                }
             }
         }
         for(int[]fare : fares){
@@ -25,9 +25,10 @@ class Solution {
                 }
             }
         }
+        
         int min = Integer.MAX_VALUE;
         for(int i = 0; i < n ; i++){
-                min = Math.min(min, graph[i][a - 1] + graph[i][b - 1] + graph[s - 1][i]);
+            min = Math.min(min, graph[i][a - 1] + graph[i][b - 1] + graph[s - 1][i]);
         }
         return min;
     }
