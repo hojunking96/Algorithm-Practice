@@ -59,13 +59,13 @@ class Solution {
                     //지금꺼 못 끝내면 남은시간 갱신하고 스택에 넣어
                     if(timeLeft < before.requiredMinute){
                         before.requiredMinute -= timeLeft;
-                        timeLeft = 0;
                         stack.push(before);
+                        break;
                     }
                     //지금꺼 딱 끝내면 지금꺼를 정답에 추가
                     else if(timeLeft == before.requiredMinute){
                         answer[idx++] = before.name;
-                        timeLeft = 0;
+                        break;
                     }
                     //끝내고도 시간이 남으면 계산하고 넘겨
                     else{
