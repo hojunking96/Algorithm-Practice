@@ -12,11 +12,11 @@ class Solution {
             dp[4] = 3 * 3 + 2;    
         }
         for(int i = 6; i <= n; i += 2){
-            dp[i] = (dp[i - 2] * 3) % 1_000_000_007;
+            dp[i] = dp[i - 2] * 3;
             for(int j = 0; j <= i - 4; j += 2){
-                dp[i] += dp[j] * 2 % 1_000_000_007;
-                dp[i] %= 1_000_000_007;
+                dp[i] += dp[j] * 2;
             }
+            dp[i] %= 1_000_000_007;
         }
         return (int)dp[n];
     }
