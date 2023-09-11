@@ -4,18 +4,15 @@ class Solution {
     
     private String[] members = {"A", "C", "F", "J", "M", "N", "R", "T"};
     private int cnt = 0;
-    private String[] conditions;
     
     public int solution(int n, String[] data) {
-        conditions = data;
-        
-        String line = "";
-        dd(line);
+        dd("", data);
         return cnt;
     }
-    private void dd(String line){
+    
+    private void dd(String line, String[] data){
         if(line.length() == 8){
-            if(check(line)){
+            if(check(line, data)){
                 cnt++;
             }
             return;
@@ -23,14 +20,14 @@ class Solution {
         for(int i = 0; i < 8; i++){
             if(!line.contains(members[i])){
                 line += members[i];
-                dd(line);
+                dd(line, data);
                 line = line.substring(0, line.length() - 1);
             }
         }
     }
     
-    private boolean check(String line){
-        for(String expression : conditions){
+    private boolean check(String line, String[] data){
+        for(String expression : data){
             String v1 = expression.substring(0, 1);
             String v2 = expression.substring(2, 3);
             String func = expression.substring(3, 4);
