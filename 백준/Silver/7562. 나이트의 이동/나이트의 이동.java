@@ -44,14 +44,12 @@ public class Main {
     private static int BFS(Node start, Node end) {
         Queue<Node> q = new LinkedList<>();
         q.add(start);
-        int cnt = 0;
         visited[start.x][start.y] = true;
         while (!q.isEmpty()) {
             Node now = q.poll();
             if (now.x == end.x && now.y == end.y) {
                 return now.cnt;
             }
-            cnt++;
             for (int i = 0; i < 8; i++) {
                 int nextX = now.x + dX[i];
                 int nextY = now.y + dY[i];
@@ -64,7 +62,7 @@ public class Main {
                 }
             }
         }
-        return cnt;
+        return 0;
     }
 
 }
